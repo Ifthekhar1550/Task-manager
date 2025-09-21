@@ -1,6 +1,14 @@
 import  type { Task } from '../components/Types';
 
-const API_URL = 'http://localhost:3001/tasks';;
+
+const isDevelopment = !window.location.href.includes('vercel.app') && 
+                     !window.location.href.includes('netlify.app') &&
+                     window.location.hostname === 'localhost';
+
+const API_URL = isDevelopment 
+  ? 'http://localhost:3001/tasks'
+  : 'https://jsonplaceholder.typicode.com/posts'; 
+
 
 export const getTasks = async (): Promise<Task[]> => {
   const response = await fetch(API_URL);
