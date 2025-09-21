@@ -1,26 +1,51 @@
-import axios from "axios";
+import  type { Task } from '../components/Types';
 
-export interface Task {
-  id?: number;
-  title: string;
-  description: string;
-  status: "pending" | "in-progress" | "completed";
-}
+const API_URL = 'http://localhost:3001/tasks';;
 
-const API_URL = "http://localhost:5000";
-
-
-export const getTasks = () => {
-  return axios.get<Task[]>(API_URL);
+export const getTasks = async (): Promise<Task[]> => {
+  const response = await fetch(API_URL);
+  if (!response.ok) {
+    throw new Error('Failed to fetch tasks');
+  }
+  return response.json();
 };
 
-export const addTask = (task: Task) => {
-  return axios.post<Task>(API_URL, task);
-};
-export const updateTask = (id: number, updatedTask: Task) => {
-  return axios.put<Task>(`${API_URL}/${id}`, updatedTask);
+
+export const addTask = async (task: Omit<Task, 'id'>): Promise<Task> => {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(task),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to add task');
+  }
+  return response.json();
 };
 
-export const deleteTask = (id: number) => {
-  return axios.delete(`${API_URL}/${id}`);
+
+export const updateTask = async (id: number, task: Omit<Task, 'id'>): Promise<Task> => {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ...task, id }),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to update task');
+  }
+  return response.json();
+};
+
+
+export const deleteTask = async (id: number): Promise<void> => {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: 'DELETE',
+  });
+  if (!response.ok) {
+    throw new Error('Failed to delete task');
+  }
 };

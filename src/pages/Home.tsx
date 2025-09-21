@@ -1,11 +1,12 @@
+import TaskManager from '../components/TaskManager';
+import React from 'react';
 
-
-const Home: React.FC = () => {
-  return (
-	<div>
-	 task manager
-	</div>
-  );
-}
+const Home = () => {
+    return (
+        <div>
+            <TaskManager />
+        </div>
+    );
+};
 
 export default Home;
