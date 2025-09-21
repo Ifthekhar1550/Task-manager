@@ -7,7 +7,7 @@ const isDevelopment = !window.location.href.includes('vercel.app') &&
 
 const API_URL = isDevelopment 
   ? 'http://localhost:3001/tasks'
-  : 'https://jsonplaceholder.typicode.com/posts'; 
+  : 'https://68cfe2c0ec1a5ff33825ced5.mockapi.io/api/v1/tasks'; 
 
 
 export const getTasks = async (): Promise<Task[]> => {
